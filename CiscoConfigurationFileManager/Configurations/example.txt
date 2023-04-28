@@ -1,0 +1,104 @@
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname CCFM
+!
+enable secret passpass
+!Note that this will change your password.
+!If you want to keep your password, remove this line. If you want to change your password remove line with current password.
+!
+username admin privilege 1 password 0 admin
+!
+vrf definition Mgmt-vrf
+!
+address-family ipv4
+exit address-family
+!
+address-family ipv6
+exit address-family
+!
+ip routing
+!
+ip name-server 8.8.8.8 8.8.4.4
+ip domain list example.com
+no ip domain lookup
+ip domain name example.com
+!
+ip dhcp excluded-address 192.168.0.1 192.168.0.2
+ip dhcp excluded-address 192.168.1.1 192.168.1.2
+!
+ip dhcp pool name
+ network 192.168.0.0 255.255.255.0
+ default-router 192.168.0.1
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface ExamplePort0/0
+description Example description
+switchport trunk allowed vlan 1-999
+switchport mode trunk
+!
+interface ExamplePort0/1
+description Example description
+switchport mode access
+access-session host-mode multi-domain
+access-session closed
+access-session port-control auto
+mab
+dot1x pae authenticator
+service-policy type control subscriber CONCURENT_DOT1X_MAB
+!
+interface ExamplePort0/2
+spanning-tree portfast
+interface ExamplePort0/3
+spanning-tree portfast
+switchport access vlan 1
+switchport mode access
+!
+interface ExampleVlan1
+ip address 192.168.122.2 255.255.255.0
+ip helper-address 192.168.100.20
+standby version 2
+standby 1 ip 192.168.100.1
+standby 1 priority 150
+standby 1 preempt
+no ip route-cache
+!
+router ospf 1
+router-id 10.196.0.1
+passive-interface default
+network 10.196.0.0 0.0.0.255 area 0.0.0.11
+!
+ip default-gateway 10.196.2.2
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.196.1.1
+ip ssh version 2
+!
+ip access-list extended ExampleACL
+permit tcp any any eq PortNumber
+permit udp any any range 16384 32767
+permit tcp any any range 50000 59999
+!
+line con 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+ntp clock-period 22519373
+ntp server 10.1.1.1
+!
+!
+!
+end

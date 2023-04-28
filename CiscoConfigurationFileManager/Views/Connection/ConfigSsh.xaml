@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="CiscoConfigurationFileManager.Views.Connection.ConfigSsh"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CiscoConfigurationFileManager.Views.Connection"
+             xmlns:vmC="clr-namespace:CiscoConfigurationFileManager.ViewModels.Connection"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vmC:ConfigSshViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Icon menu bar -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="4 0 4 8">
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                    Command="{Binding GoToConnections}"
+                    ToolTip="Go to Connections">
+                <materialDesign:PackIcon Kind="Home" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                    Command="{Binding NavigateBack}"
+                    ToolTip="Navigate back">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding IpAddress.Value, UpdateSourceTrigger=PropertyChanged}" Margin="16" materialDesign:HintAssist.Hint="Enter IP address*"/>
+                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Username}" Margin="16" materialDesign:HintAssist.Hint="Enter line username"/>
+                <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Password}" Margin="16" materialDesign:HintAssist.Hint="Enter line password"/>
+                <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding Secret}" Margin="16" materialDesign:HintAssist.Hint="Enter secret"/>
+                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Content="Connect" Command="{Binding GoToModules}" IsEnabled="{Binding IpValid.Value}" Margin="16"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

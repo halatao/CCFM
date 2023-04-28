@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="CiscoConfigurationFileManager.Views.ModuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:CiscoConfigurationFileManager.ViewModels"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:ModuleViewModel}">
+    <UserControl.Resources>
+        <Style x:Key="VerticalSeparatorStyle" 
+               TargetType="{x:Type Separator}"
+               BasedOn="{StaticResource {x:Type Separator}}">
+            <Setter Property="Margin" Value="6,0,6,0"/>
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <TransformGroup>
+                        <TransformGroup.Children>
+                            <TransformCollection>
+                                <RotateTransform Angle="90"/>
+                            </TransformCollection>
+                        </TransformGroup.Children>
+                    </TransformGroup>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu bar -->
+        <Menu Grid.Row="0" FontSize="{StaticResource FontSize}">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="{Binding NewConfigCommand}"/>
+                <MenuItem Header="_Open" Command="{Binding OpenConfigCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Save Selected Module" Command="{Binding SaveChangesModule}" IsEnabled="{Binding SelectedShowed.Value}"/>
+                <MenuItem Header="_Save Modules" Command="{Binding SaveChangesModules }"/>
+                <MenuItem Header="Save _As" Command="{Binding SaveConfigAsCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Configuration">
+                <MenuItem Header="_Merge configuration" Command="{Binding MergeConfig}" IsEnabled="{Binding MergeEnabled.Value}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding ShowAboutCommand}"/>
+                <MenuItem Header="_Show regex configuration" Command="{Binding OpenRegexConfigCommand}"/>
+                <MenuItem Header="_Show category configuration" Command="{Binding OpenCategoryConfigCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Icon menu bar -->  
+        <StackPanel Grid.Row="1"
+            Orientation="Horizontal"
+            Margin="4 0 4 8">
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding GoToConnections}"
+            ToolTip="Go to Connections">
+                <materialDesign:PackIcon Kind="Home" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                    Command="{Binding NavigateBack}"
+                    ToolTip="Navigate back">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
+            <Separator Style="{DynamicResource VerticalSeparatorStyle}" Margin="4" />
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding SaveChangesModule}"
+            ToolTip="Save Selected Module"  
+            IsEnabled="{Binding SelectedShowed.Value}">
+                <materialDesign:PackIcon Kind="ContentSave" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding SaveChangesModules}"
+            ToolTip="Save Modules">
+                <materialDesign:PackIcon Kind="ContentSaveAll" />
+            </Button>
+            <Separator Style="{DynamicResource VerticalSeparatorStyle}" Margin="4" />
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding AddLine}"
+            ToolTip="Add Line"
+            IsEnabled="{Binding SelectedShowed.Value}">
+                <materialDesign:PackIcon Kind="Add" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding RemoveModule}"
+            ToolTip="Remove Module"
+            IsEnabled="{Binding SelectedShowed.Value}">
+                <materialDesign:PackIcon Kind="Remove" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding ShowExample}"
+            ToolTip="Show Example"
+            IsEnabled="{Binding SelectedShowed.Value}">
+                <materialDesign:PackIcon Kind="QuestionMark" />
+            </Button>
+            <Separator Style="{DynamicResource VerticalSeparatorStyle}" Margin="4" />
+            <ComboBox x:Name="ComboBoxOption"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Width="200"
+              Margin="16 0 0 0"
+              SelectedItem="{Binding SelectedExampleModuleToAdd.Value}"
+              ItemsSource="{Binding ExampleModules.Value}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock Text="Select module" FontSize="{StaticResource FontSize}" />
+                </materialDesign:HintAssist.Hint>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding String}"
+                                   FontSize="{StaticResource FontSize}"
+                           Margin="5" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                
+            </ComboBox>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+            Command="{Binding AddExampleModule}"
+            IsEnabled="{Binding IsExampleModuleToAddSelected.Value}"
+            ToolTip="Add Example Module">
+                <materialDesign:PackIcon Kind="Add" />
+            </Button>
+        </StackPanel>
+
+
+        <!-- Main content area -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" MinWidth="250"/>
+                <ColumnDefinition Width="0.4*" MinWidth="400"/>
+                <ColumnDefinition Width="0.15*" MinWidth="250"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Names of modules -->
+            <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding InteractiveModules, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedModule.Value}" Margin="16 32 0 32">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" FontSize="{StaticResource FontSize}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:InvokeCommandAction Command="{Binding ShowSelected}" />
+                        <b:InvokeCommandAction Command="{Binding FetchInteractiveConfig}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </ListView>
+
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedShowed.Value}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedShowed.Value}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--selected module-->
+                <ListView Name="Config" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding InteractiveConfig}" Margin="32" 
+                          HorizontalContentAlignment="Stretch">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.04*"/>
+                                    <ColumnDefinition Width="0.8*" />
+                                    <ColumnDefinition Width="0.1*" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="warningButton" Grid.Column="0"  ToolTip="Command is not recognized">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Valid.Value}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <materialDesign:PackIcon Kind="Warning" />
+                                </Button>
+
+                                <TextBox Grid.Column="1" Text="{Binding Path=Line.Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" FontSize="{StaticResource FontSize}"/>
+                                <Button Style="{StaticResource MaterialDesignIconButton}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Path=DataContext.RemoveLine}"
+                                        CommandParameter="{Binding}"
+                                        Grid.Column="2">
+                                    <materialDesign:PackIcon Kind="Delete" ToolTip="Delete line" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <!--example module-->
+            <Grid Grid.Column="2" Grid.Row="0" Margin="0 32 32 32" MaxHeight="500">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ExampleShowed.Value}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Example configuration" FontWeight="Bold" FontSize="20" TextAlignment="Center"/>
+                <ListView Grid.Row="1" ItemsSource="{Binding SelectedExampleModule.Value.Configuration}" Margin="16">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=String}" FontSize="{StaticResource FontSize}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Grid.Row="2" Content="Take example" Command="{Binding ExampleToRunning}" Width="auto"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

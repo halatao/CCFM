@@ -1,0 +1,20 @@
+﻿<Application x:Class="CiscoConfigurationFileManager.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CiscoConfigurationFileManager"
+             xmlns:viewModels="clr-namespace:CiscoConfigurationFileManager.ViewModels"
+             xmlns:views="clr-namespace:CiscoConfigurationFileManager.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             Startup="OnStartup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepOrange" SecondaryColor="Indigo" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <system:Double x:Key="FontSize">17</system:Double>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

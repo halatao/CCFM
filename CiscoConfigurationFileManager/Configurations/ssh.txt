@@ -1,0 +1,13 @@
+hostname ${hostname}$
+ip domain-name ${domain}$
+crypto key generate rsa general-keys modulus 1024
+line vty 0 4
+transport input ssh
+login local
+username ${username}$ password ${password}$
+enable secret ${secret}$
+int vlan1
+ip address ${ipwithmask}$
+no shutdown
+end
+copy run start

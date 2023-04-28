@@ -1,0 +1,69 @@
+﻿{
+  "System": [
+    "service",
+    "hostname",
+    "ip domain",
+    "aaa",
+    "logging",
+    "ntp",
+    "address-family",
+    "vrf",
+    "ip name-server",
+    "spanning-tree",
+    "version"
+  ],
+  "Security": [
+    "no service password-encryption",
+    "enrollment selfsigned",
+    "subject-name",
+    "revocation-check",
+    "rsakeypair",
+    "enable secret",
+    "username"
+  ],
+  "Interface": [
+    "interface",
+    "GigabitEthernet",
+    "FastEthernet",
+    "Vlan",
+    "ip address",
+    "ip access-group",
+    "switchport",
+    "shutdown",
+    "description",
+    "standby",
+    "hsrp",
+    "no ip route-cache"
+  ],
+  "Routing": [
+    "router ospf",
+    "router-id",
+    "passive-interface",
+    "area",
+    "ip default-gateway",
+    "ip forward-protocol",
+    "ip route",
+    "ip routing"
+  ],
+  "ACL": [
+    "ip access-list",
+    "permit",
+    "deny"
+  ],
+  "Line": [
+    "line con",
+    "line vty",
+    "transport input",
+    "login"
+  ],
+  "DHCP": [
+    "ip dhcp",
+    "default-router",
+    "dns-server",
+    "network"
+  ],
+  "Ignore": [
+    "crypto pki",
+    "self-signed"
+  ]
+}

@@ -1,0 +1,127 @@
+
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CCFM
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$8xOD$/5OtzNPm2zy5STsA7miud.
+!
+username admin password 0 admin
+username asdron password 0 asdron
+no aaa new-model
+system mtu routing 1500
+ip subnet-zero
+!
+ip domain-name asdron
+!
+!
+crypto pki trustpoint TP-self-signed-15720576
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-15720576
+ revocation-check none
+ rsakeypair TP-self-signed-15720576
+!
+!
+crypto pki certificate chain TP-self-signed-15720576
+ certificate self-signed 01
+  3082023F 308201A8 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  2F312D30 2B060355 04031324 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31353732 30353736 301E170D 39333033 30313030 30313136 
+  5A170D32 30303130 31303030 3030305A 302F312D 302B0603 55040313 24494F53 
+  2D53656C 662D5369 676E6564 2D436572 74696669 63617465 2D313537 32303537 
+  3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 8100C9FC 
+  C9E55B1C E4F0BA93 6392350E 23D2C323 2A5C5BE2 928E3EA0 9E277FAC 22EF1900 
+  8B78998A 9463635F 2EE5C7B7 FB4AB6C3 BF831A04 854E01CC 2554BD33 C28B6044 
+  0D70C99C A36966C3 05783F76 EDBCC7BA A86906CD 9C55C438 003C0FBF 717879A2 
+  CEB7A0F8 FDF39B29 ADBBEFDF 1B581FD1 8EC60C8C AC4677BF 82A10588 81B70203 
+  010001A3 6B306930 0F060355 1D130101 FF040530 030101FF 30160603 551D1104 
+  0F300D82 0B434346 4D2E6173 64726F6E 301F0603 551D2304 18301680 14CC4EA5 
+  BD16478D EE0F7227 AEF66ECD C206B829 DF301D06 03551D0E 04160414 CC4EA5BD 
+  16478DEE 0F7227AE F66ECDC2 06B829DF 300D0609 2A864886 F70D0101 04050003 
+  8181009C E5E8CC4E 00DBD5E1 00BF120C 83B253EC A43339E8 A9E52DC3 B266AFA7 
+  91C75B44 BDA97B64 D5780174 1BB5F741 B47DB4D0 8A4BF6EA 0B33F6A5 78990DF7 
+  E03B45A1 B2B3DC50 91BD317F 0FB26D7E 557E559C 18A43FB4 5E394DA9 1AD54651 
+  7A0D577D 2C161277 F08FFBA8 EAF3844C E5C34840 08B25F44 F9837170 E5EDF0C6 A591A7
+  quit
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface GigabitEthernet0/3
+!
+interface GigabitEthernet0/4
+!
+interface GigabitEthernet0/5
+!
+interface GigabitEthernet0/6
+!
+interface GigabitEthernet0/7
+!
+interface GigabitEthernet0/8
+!
+interface GigabitEthernet0/9
+!
+interface GigabitEthernet0/10
+!
+interface GigabitEthernet0/11
+!
+interface GigabitEthernet0/12
+!
+interface GigabitEthernet0/13
+!
+interface GigabitEthernet0/14
+!
+interface GigabitEthernet0/15
+!
+interface GigabitEthernet0/16
+!
+interface GigabitEthernet0/17
+!
+interface GigabitEthernet0/18
+!
+interface GigabitEthernet0/19
+!
+interface GigabitEthernet0/20
+!
+interface GigabitEthernet0/21
+!
+interface GigabitEthernet0/22
+!
+interface GigabitEthernet0/23
+!
+interface GigabitEthernet0/24
+!
+interface Vlan1
+ ip address 192.168.0.2 255.255.255.0
+ no ip route-cache
+!
+ip http server
+ip http secure-server
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+end
