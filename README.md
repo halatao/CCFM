@@ -1,6 +1,6 @@
 # CiscoConfigurationFileManager
 
-CiscoConfigurationFileManager allows users to create, modify, and display configurationd for Cisco network devices. It's a user-friendly networking tool that provides guidance on theoretical knowledge related to the configuration file. This makes it suitable for users without prior knowledge of Cisco IOS and for educational purposes.
+CiscoConfigurationFileManager allows users to create, modify, and display configurationd for Cisco network devices. It's a user-friendly networking tool that provides guidance on theoretical knowledge related to the configuration file. This makes it suitable for users without prior knowledge of Cisco IOS and for educational purposes. This application was developed as a bachelor thesis at the Department of KIP, Faculty of Science, University of Ostrava 
 
 ## Table of Contents
 
