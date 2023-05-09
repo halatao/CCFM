@@ -25,6 +25,12 @@ CiscoConfigurationFileManager allows users to create, modify, and display config
 - [License](#license)
 
 ## Getting Started
+System requirements:
+
+1. Operating system Windows 10, 11.
+2. Instalation of .NET Framework 4.5 or newer.
+3. Support of DirexctX 9.0 or newer.
+
 To use this application, follow these simple steps:
 
 1. Download the latest release of the application from the "Release" section of this repository.
